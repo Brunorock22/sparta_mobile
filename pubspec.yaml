@@ -1,0 +1,31 @@
+name: sparta_marketplace
+description: A new Flutter application.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider:
+  firebase_core:
+  firebase_storage:
+  circular_bottom_navigation: ^1.0.1
+  carousel_slider: ^2.3.1
+  cupertino_icons: ^1.0.0
+  cached_network_image: ^2.2.0+1
+  smooth_page_indicator: ^0.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/images/
+
+  uses-material-design: true
+
