@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "822441218989",
+    "firebase_url": "https://whatsapp-d6d60.firebaseio.com",
+    "project_id": "whatsapp-d6d60",
+    "storage_bucket": "whatsapp-d6d60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822441218989:android:250f977f32acf78c324724",
+        "android_client_info": {
+          "package_name": "com.bruno.dev.sparta_marketplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "822441218989-ske8tq4jcihd67e9on991lkal345c751.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq-lQreaYbKxXXQwsl0Qz9M4kCn-15KPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "822441218989-ske8tq4jcihd67e9on991lkal345c751.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

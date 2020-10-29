@@ -3,7 +3,7 @@ import 'package:circular_bottom_navigation/tab_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sparta_marketplace/core/util/theme_colors.dart';
-import 'package:sparta_marketplace/ui/main_screen/pages/home-screen-by-stores.dart';
+import 'package:sparta_marketplace/ui/pages/home-screen-by-stores.dart';
 
 class MainTabController extends StatefulWidget {
   @override

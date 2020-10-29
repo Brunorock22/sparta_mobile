@@ -9,10 +9,12 @@ import 'package:sparta_marketplace/core/common/global_information.dart';
 import 'package:sparta_marketplace/core/model/category.dart';
 import 'package:sparta_marketplace/core/model/offer.dart';
 import 'package:sparta_marketplace/core/model/store.dart';
+import 'package:sparta_marketplace/core/service/firebase_service.dart';
 import 'package:sparta_marketplace/core/util/theme_colors.dart';
-import 'package:sparta_marketplace/ui/main_screen/widgets/shopping_cart_tray.dart';
+import 'package:sparta_marketplace/ui/widgets/shopping_cart_tray.dart';
 
 import '../store-screen.dart';
+
 
 class HomeScreenByStores extends StatefulWidget {
   @override
@@ -32,6 +34,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   @override
   void initState() {
     super.initState();
+    load();
     categories.add(Category(name: "Cerveja", icon: Icons.local_drink));
     categories
         .add(Category(name: "Cafe", icon: Icons.emoji_food_beverage_rounded));
@@ -40,23 +43,6 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
 
     offers.add(Offer());
 
-    stores.add(Store(displayName: "Distribuidora Brahma ", logoUrl: "https://extra.globo.com/noticias/economia/21639530-7a8-27d/w976h550-PROP/brahma.jpg"));
-    stores.add(Store(displayName: "Smart Fitness", logoUrl: "https://s2.glbimg.com/DJsLIxXvDj83PP-HSyag4cOuryY=/620x350/e.glbimg.com/og/ed/f/original/2017/08/16/smartfit.jpg"));
-    stores.add(Store(displayName: "Java Café ", logoUrl: "https://1.bp.blogspot.com/-y5dyA_AlQg4/VXd2P_BiRhI/AAAAAAAABAw/TWNMtOEuhU4/s1600/cafe.jpg"));
-    load();
-
-    effectColor = ThemeColorsUtil.primaryColor;
-    scrollController.addListener(() {
-      if (scrollController.offset > 75) {
-        effectColor = ThemeColorsUtil.textTitleColor;
-        searchFieldLogoMustAppear = true;
-        setState(() {});
-      } else {
-        searchFieldLogoMustAppear = false;
-        effectColor = ThemeColorsUtil.primaryColor;
-        setState(() {});
-      }
-    });
   }
 
   @override
@@ -104,15 +90,9 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
 
   Future load() async {
     isLoading = true;
+    FirebaseService firebase = FirebaseService();
+    stores = await firebase.getStores();
     setState(() {});
-    // StoreService service = StoreService();
-    // GlobalInformation.store = await service.getStore();
-    // offers = List<Offer>();
-    // GlobalInformation.category = List<Category>();
-    // offers = await service.getGeneralOffers();
-    // // offers = await service.getOffers(GlobalInformation.store.id);
-    // GlobalInformation.category = await service.getCategories();
-    // stores = await service.getStores(GlobalInformation.currentPosition);
     isLoading = false;
     setState(() {});
   }
@@ -636,7 +616,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
 
   Future onClickedStore(Store store) async {
     // GlobalInformation.store = store;
-    Navigator.push(context, MaterialPageRoute(builder: (context) => StoreScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => StoreScreen(store)));
     // if (!GlobalInformation.isWithinRadius) {
     //   load();
     // }
@@ -744,27 +724,16 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   }
 
   Widget buildStoreName(Store store) {
-    return Text("${store.displayName}",
+    return Text("${store.name}",
         style: TextStyle(fontFamily: 'Montserrat', fontSize: 15));
   }
 
   Widget buildStoreRate(Store store) {
-    if (store.rate != 0) {
-      return Row(
-        children: [
-          Text("⭐"),
-          SizedBox(width: 5),
-          Text("5",
-              style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  color: ThemeColorsUtil.primaryColor)),
-        ],
-      );
-    } else {
+
       return Text("Novo!",
           style: TextStyle(
               fontFamily: 'Montserrat', color: ThemeColorsUtil.primaryColor));
-    }
+
   }
 
   Widget buildStoreDistance(Store store) {
@@ -784,19 +753,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   }
 
   Widget buildStoreDeliveryFee(Store store) {
-    if (store.deliveryFee != 0) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(2),
-        ),
-        child: Text(
-          "Entrega Gratis",
-          style: TextStyle(color: Colors.grey),
-        ),
-      );
-    } else {
+
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
         decoration: BoxDecoration(
@@ -808,6 +765,6 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
           style: TextStyle(color: Colors.green),
         ),
       );
-    }
+
   }
 }
