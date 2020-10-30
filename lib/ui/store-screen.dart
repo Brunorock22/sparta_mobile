@@ -14,6 +14,7 @@ import 'package:sparta_marketplace/core/model/product.dart';
 import 'package:sparta_marketplace/core/model/store-payment.dart';
 import 'package:sparta_marketplace/core/model/store.dart';
 import 'package:sparta_marketplace/core/util/theme_colors.dart';
+import 'package:sparta_marketplace/ui/store_product_screen.dart';
 import 'package:sparta_marketplace/ui/widgets/grid_item.dart';
 import 'package:sparta_marketplace/ui/widgets/shopping_cart_tray.dart';
 
@@ -44,7 +45,7 @@ class _StoreScreenState extends State<StoreScreen> {
     super.initState();
     load();
 
-    effectColor = Color(0xfff4e316);
+    effectColor = ThemeColorsUtil.accentColor;
     scrollController.addListener(() {
       if (scrollController.offset > 75) {
         effectColor = Colors.white;
@@ -52,7 +53,7 @@ class _StoreScreenState extends State<StoreScreen> {
         setState(() {});
       } else {
         searchFieldLogoMustAppear = false;
-        effectColor = Color(0xfff4e316);
+        effectColor = ThemeColorsUtil.accentColor;
         setState(() {});
       }
     });
@@ -103,41 +104,6 @@ class _StoreScreenState extends State<StoreScreen> {
   Future load([String storeId]) async {
     isLoading = true;
     setState(() {});
-    //
-    // StoreService service = StoreService();
-    // await service.getRateCount();
-    // GlobalInformation.isWithinRadius = await service.isNearby();
-    // storePayment = await service.getStorePaymentMethods();
-    // offers = List<Offer>();
-    // GlobalInformation.Product = List<Product>();
-    // GlobalInformation.productsByProduct = Map<String, List<Product>>();
-    // offers = await service.getOffers(GlobalInformation.store.id);
-    // GlobalInformation.Product = await service.getCategories();
-    //
-    // for (int i = 0; i < GlobalInformation.Product.length; i++) {
-    //   //   List<Product> products = await service.getStores2(GlobalInformation.currentPosition, ProductID: GlobalInformation.Product[i].id, onlyProducts: true);
-    //   print("Store id: ${GlobalInformation.store.id}");
-    //   print("Product id: ${GlobalInformation.Product[i].id}");
-    //   List<Product> products = await service.getProducts(GlobalInformation.store, ProductID: GlobalInformation.Product[i].id);
-    //   if (products.length != 0) {
-    //     GlobalInformation.productsByProduct.putIfAbsent(GlobalInformation.Product[i].name, () => products);
-    //     print("Length: ${GlobalInformation.productsByProduct.length}");
-    //
-    //     if (GlobalInformation.productsByProduct[GlobalInformation.Product[i].name].length < 5) {
-    //       //   GlobalInformation.productsByProduct[GlobalInformation.Product[i].name] = GlobalInformation.productsByProduct[GlobalInformation.Product[i].name].sublist(0, GlobalInformation.productsByProduct[GlobalInformation.Product[i].name].length);
-    //     } else {
-    //       //   GlobalInformation.productsByProduct[GlobalInformation.Product[i].name] = GlobalInformation.productsByProduct[GlobalInformation.Product[i].name].sublist(0, 5);
-    //     }
-    //   }
-    // }
-    //
-    // amount = List<List<int>>(GlobalInformation.productsByProduct.length);
-    //
-    // for (int i = 0; i < GlobalInformation.productsByProduct.length; i++) {
-    //   subAmount = List.filled(GlobalInformation.productsByProduct[GlobalInformation.productsByProduct.keys.elementAt(i)].length, 1);
-    //   amount[i] = subAmount;
-    // }
-
     isLoading = false;
     setState(() {});
   }
@@ -147,7 +113,7 @@ class _StoreScreenState extends State<StoreScreen> {
       floating: true,
       snap: true,
       brightness: Brightness.dark,
-      backgroundColor: Color(0xfff4e316),
+      backgroundColor: ThemeColorsUtil.accentColor,
       expandedHeight: 200,
       collapsedHeight: 90,
       pinned: true,
@@ -224,7 +190,7 @@ class _StoreScreenState extends State<StoreScreen> {
   Widget buildFlexibleSpaceBar() {
     return FlexibleSpaceBar(
       background: Container(
-        color: Color(0xfff4e316),
+        color: ThemeColorsUtil.accentColor,
         child: Stack(
           children: [
             Column(
@@ -280,7 +246,7 @@ class _StoreScreenState extends State<StoreScreen> {
   Widget buildBottomSliverAppBar() {
     return Container(
       height: 100,
-      color: Color(0xfff4e316),
+      color: ThemeColorsUtil.accentColor,
       child: Align(
         alignment: Alignment.topRight,
         child: buildLocationRow(),
@@ -348,6 +314,20 @@ class _StoreScreenState extends State<StoreScreen> {
     return CustomScrollView(
       slivers: [
         buildFirstContent(context),
+    SliverToBoxAdapter(child:    Container(
+      height: 350,
+      child: GridView.count(
+        padding: EdgeInsets.all(8),
+        shrinkWrap: true,
+        crossAxisCount: 3,
+        mainAxisSpacing: 3,
+        crossAxisSpacing: 3,
+        physics: ScrollPhysics(),
+        children: buildList(context),
+      ),
+    ),)
+
+
       ],
     );
   }
@@ -395,10 +375,14 @@ class _StoreScreenState extends State<StoreScreen> {
       width: double.infinity,
       child: Stack(
         children: [
+
           buildStoreBannerImage(),
+
           buildStoreBannerShadow(),
+
           buildStoreHeaderText(),
-          Column(children: buildGridList())
+
+
         ],
       ),
     );
@@ -456,6 +440,7 @@ class _StoreScreenState extends State<StoreScreen> {
                   buildCircleSeparator(),
                   SizedBox(width: 5),
                   buildStoreDeliveryFee(),
+
                 ],
               ),
               SizedBox(height: 10),
@@ -465,8 +450,9 @@ class _StoreScreenState extends State<StoreScreen> {
               SizedBox(height: 10),
               buildPaymentOnDeliveryTitle(),
               SizedBox(height: 5),
-              buildAcceptMoney(),
+              // buildAcceptMoney(),
               SizedBox(height: 5),
+
             ],
           ),
         ],
@@ -486,26 +472,6 @@ class _StoreScreenState extends State<StoreScreen> {
         fontWeight: FontWeight.w600,
       ),
     );
-  }
-
-  Widget buildAcceptMoney() {
-    if (storePayment.acceptMoney != null && storePayment.acceptMoney) {
-      return Row(
-        children: [
-          Icon(Icons.monetization_on, size: 20, color: Colors.green),
-          SizedBox(width: 5),
-          Text(
-            "Dinheiro",
-            style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: Colors.white,
-            ),
-          ),
-        ],
-      );
-    } else {
-      return SizedBox();
-    }
   }
 
   Widget buildDebitBrandsTitle() {
@@ -587,28 +553,9 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 
 
-  List<Widget> buildGridList() {
-    List<Widget> items = [];
-    items.add(SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          GridView.count(
-            padding: EdgeInsets.all(8),
-            shrinkWrap: true,
-            crossAxisCount: 3,
-            mainAxisSpacing: 3,
-            crossAxisSpacing: 3,
-            physics: ScrollPhysics(),
-            children: buildList(),
-          )
-        ],
-      ),
-    ));
 
-    return items;
-  }
 
-  List<Widget> buildList() {
+  List<Widget> buildList(BuildContext context) {
     List<Widget> items = [];
 
     for (var i = 0; i < widget.store.products.length; i++) {
@@ -628,11 +575,11 @@ class _StoreScreenState extends State<StoreScreen> {
             placeholder: (context, url) => CircularProgressIndicator(),
           ),
           widget.store.products[i].name, () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) =>
-        //             ProconProductsScreen(proconCategories[i].id)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    StoreProductScreen(widget.store , widget.store.products[i])));
       }));
     }
     return items;

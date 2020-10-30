@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sparta_marketplace/core/util/theme_colors.dart';
 import 'package:sparta_marketplace/ui/pages/home-screen-by-stores.dart';
+import 'package:sparta_marketplace/ui/pages/order_screen.dart';
+import 'package:sparta_marketplace/ui/pages/profile_page.dart';
 
 class MainTabController extends StatefulWidget {
   @override
@@ -11,7 +13,7 @@ class MainTabController extends StatefulWidget {
   int pos = 0;
   Widget page;
 
-  MainTabController({this.page});
+  MainTabController({this.page, this.pos});
 }
 
 class _MainTabControllerState extends State<MainTabController> {
@@ -36,6 +38,7 @@ class _MainTabControllerState extends State<MainTabController> {
       child: HomeScreenByStores(),
     );
     return Scaffold(
+      backgroundColor: Colors.black87,
       body: widget.page,
       bottomNavigationBar: CircularBottomNavigation(
         tabItems,
@@ -57,14 +60,10 @@ class _MainTabControllerState extends State<MainTabController> {
           widget.page = HomeScreenByStores();
           break;
         case 1:
-          widget.page = Container(
-            child: Text("TELA 2"),
-          );
+          widget.page = OrderScreen();
           break;
         case 2:
-          widget.page = Container(
-            child: Text("TELA 3"),
-          );
+          widget.page = ProfilePage();
           break;
       }
     });

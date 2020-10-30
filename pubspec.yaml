@@ -13,7 +13,7 @@ dependencies:
   provider:
   firebase_core:
   cloud_firestore:
-
+  flushbar: ^1.10.4
   circular_bottom_navigation:
   carousel_slider:
   cupertino_icons:

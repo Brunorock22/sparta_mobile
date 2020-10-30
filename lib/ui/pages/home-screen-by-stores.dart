@@ -13,8 +13,8 @@ import 'package:sparta_marketplace/core/service/firebase_service.dart';
 import 'package:sparta_marketplace/core/util/theme_colors.dart';
 import 'package:sparta_marketplace/ui/widgets/shopping_cart_tray.dart';
 
+import '../shopping_cart_screen.dart';
 import '../store-screen.dart';
-
 
 class HomeScreenByStores extends StatefulWidget {
   @override
@@ -34,7 +34,6 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   @override
   void initState() {
     super.initState();
-    load();
     categories.add(Category(name: "Cerveja", icon: Icons.local_drink));
     categories
         .add(Category(name: "Cafe", icon: Icons.emoji_food_beverage_rounded));
@@ -42,7 +41,6 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
     categories.add(Category(name: "Fitness", icon: Icons.fitness_center));
 
     offers.add(Offer());
-
   }
 
   @override
@@ -54,32 +52,43 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [buildAppBar()];
-          },
-          body: isLoading ? buildLoadingContent() : buildLoadedContent(context),
-        ),
+      body: FutureBuilder(
+        future: load(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            stores = snapshot.data;
+            return Container(
+              color: Colors.white,
+              child: NestedScrollView(
+                controller: scrollController,
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [buildAppBar()];
+                },
+                body: buildLoadedContent(context),
+              ),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
       bottomNavigationBar: GlobalInformation.shoppingCart != null
           ? GlobalInformation.shoppingCart.hasItems
               ? GestureDetector(
                   onTap: () async {
-                    // final Route route = MaterialPageRoute(builder: (context) => ShoppingCartScreen());
-                    //
-                    // ///Reload na tela depois de ser alterado
-                    // final result = await Navigator.push(context, route);
-                    // try {
-                    //   if (result != null) {
-                    //     // load();
-                    //     setState(() {});
-                    //   }
-                    // } catch (e) {
-                    //   print(e.toString());
-                    // }
+                    final Route route = MaterialPageRoute(
+                        builder: (context) => ShoppingCartScreen());
+
+                    ///Reload na tela depois de ser alterado
+                    final result = await Navigator.push(context, route);
+                    try {
+                      if (result != null) {
+                        // load();
+                        setState(() {});
+                      }
+                    } catch (e) {
+                      print(e.toString());
+                    }
                   },
                   child: ShoppingCartTray(),
                 )
@@ -88,13 +97,10 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
     );
   }
 
-  Future load() async {
+  Future<List<Store>> load() async {
     isLoading = true;
     FirebaseService firebase = FirebaseService();
-    stores = await firebase.getStores();
-    setState(() {});
-    isLoading = false;
-    setState(() {});
+    return await firebase.getStores();
   }
 
   Widget buildAppBar() {
@@ -102,7 +108,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
       floating: true,
       snap: true,
       brightness: Brightness.dark,
-      backgroundColor: ThemeColorsUtil.primaryColor,
+      backgroundColor: Colors.black87,
       expandedHeight: 200,
       collapsedHeight: 90,
       pinned: true,
@@ -117,19 +123,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
       child: Container(
         padding: const EdgeInsets.all(15),
         child: GestureDetector(
-          onTap: () async {
-            // final Route route = MaterialPageRoute(builder: (context) => SearchScreen());
-            //
-            // ///Reload na tela depois de ser alterado
-            // final result = await Navigator.push(context, route);
-            // try {
-            //   if (result != null) {
-            //     load();
-            //   }
-            // } catch (e) {
-            //   print(e.toString());
-            // }
-          },
+          onTap: () async {},
           child: Row(
             children: [
               Expanded(
@@ -137,12 +131,12 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
                   color: Colors.transparent,
                   child: IgnorePointer(
                     child: Text(
-                      "Seja Bem-Vindo a Sparta ",
+                      "Seja Bem-Vindo Spartano ",
                       style: TextStyle(
                         color: ThemeColorsUtil.textTitleColor,
                         fontFamily: 'Montserrat',
                         fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                   ),
@@ -164,11 +158,10 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
     );
   }
 
-
   Widget buildFlexibleSpaceBar() {
     return FlexibleSpaceBar(
       background: Container(
-        color: ThemeColorsUtil.primaryColor,
+        color: ThemeColorsUtil.accentColor,
         child: Stack(
           children: [
             Column(
@@ -224,7 +217,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   Widget buildBottomSliverAppBar() {
     return Container(
       height: 100,
-      color: ThemeColorsUtil.primaryColor,
+      color: ThemeColorsUtil.accentColor,
       child: Align(
         alignment: Alignment.topRight,
         child: buildLocationRow(),
@@ -238,25 +231,16 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Icon(Icons.location_on),
+          Icon(
+            Icons.location_on,
+            color: Colors.white,
+          ),
           GestureDetector(
-            onTap: () async {
-              // final Route route = MaterialPageRoute(builder: (context) => DeliveryAddressScreen());
-              //
-              // ///Reload na tela depois de ser alterado
-              // final result = await Navigator.push(context, route);
-              // try {
-              //   if (result != null) {
-              //     load();
-              //   }
-              // } catch (e) {
-              //   print(e.toString());
-              // }
-            },
+            onTap: () async {},
             child: Text(
               'Divinópolis - MG',
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.bold,
               ),
@@ -279,14 +263,6 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
           height: 100,
         ),
       ),
-    );
-  }
-
-  Widget buildLoadingContent() {
-    return Center(
-      child: CircularProgressIndicator(
-          valueColor:
-              AlwaysStoppedAnimation<Color>(ThemeColorsUtil.accentColor)),
     );
   }
 
@@ -405,7 +381,6 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
 
   Future onOfferPageChanged(int index) async {
     offerPage = index;
-    setState(() {});
   }
 
   Widget buildOfferBanner(Offer offer) {
@@ -458,7 +433,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
             activeIndex: offerPage,
             count: offers.length,
             effect: WormEffect(
-              activeDotColor: ThemeColorsUtil.primaryColor,
+              activeDotColor: ThemeColorsUtil.accentColor,
             ),
           );
   }
@@ -599,7 +574,6 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
       onTap: () => onClickedStore(store),
       child: Container(
         height: 100,
-
         child: Card(
           elevation: 2,
           child: Row(
@@ -615,12 +589,19 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   }
 
   Future onClickedStore(Store store) async {
-    // GlobalInformation.store = store;
-    Navigator.push(context, MaterialPageRoute(builder: (context) => StoreScreen(store)));
-    // if (!GlobalInformation.isWithinRadius) {
-    //   load();
-    // }
-    // setState(() {});
+    final Route route =
+        MaterialPageRoute(builder: (context) => StoreScreen(store));
+
+    ///Reload na tela depois de ser alterado
+    final result = await Navigator.push(context, route);
+    try {
+      if (result != null) {
+        // load();
+        setState(() {});
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Widget buildStoreContainerContent(Store store) {
@@ -664,8 +645,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   }
 
   Widget buildStoreImage(Store store) {
-      return buildStoreOpenedImage(store);
-
+    return buildStoreOpenedImage(store);
   }
 
   Widget buildStoreOpenedImage(Store store) {
@@ -729,11 +709,9 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   }
 
   Widget buildStoreRate(Store store) {
-
-      return Text("Novo!",
-          style: TextStyle(
-              fontFamily: 'Montserrat', color: ThemeColorsUtil.primaryColor));
-
+    return Text("Novo!",
+        style: TextStyle(
+            fontFamily: 'Montserrat', color: ThemeColorsUtil.primaryColor));
   }
 
   Widget buildStoreDistance(Store store) {
@@ -744,8 +722,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   }
 
   Widget buildStoreDeliveryTime(Store store) {
-    return Text("60 min",
-        style: TextStyle(color: Colors.grey));
+    return Text("60 min", style: TextStyle(color: Colors.grey));
   }
 
   Widget buildCircleSeparator() {
@@ -753,18 +730,16 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   }
 
   Widget buildStoreDeliveryFee(Store store) {
-
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(2),
-        ),
-        child: Text(
-          "ENTREGA GRÁTIS",
-          style: TextStyle(color: Colors.green),
-        ),
-      );
-
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(2),
+      ),
+      child: Text(
+        "ENTREGA GRÁTIS",
+        style: TextStyle(color: Colors.green),
+      ),
+    );
   }
 }

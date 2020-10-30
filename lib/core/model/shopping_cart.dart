@@ -41,15 +41,13 @@ class ShoppingCart {
       Store storeTemp = orderProduct.store;
 
       //Caso for a mesma loja, então iremos continuar adicionando
-      if (store.id == storeTemp.id) {
         //Caso o mesmo produto já foi adicionado, vamos apenas aumentar a quantidade
         bool productExists = false;
         for (var i = 0; i < products.length; ++i) {
-          if (products[i].product.id == orderProduct.product.id) {
             products[i].quantity += orderProduct.quantity;
             productExists = true;
             _recalculate();
-          }
+
         }
 
         //Produto ainda não foi adicionado
@@ -59,10 +57,7 @@ class ShoppingCart {
           _recalculate();
           return Status.added;
         }
-      } else {
-        //Loja diferente, devemos impedir de adicionar e informar o usuario
-        return Status.store_differ;
-      }
+
     }
   }
 

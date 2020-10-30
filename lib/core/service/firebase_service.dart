@@ -7,12 +7,13 @@ class FirebaseService {
   Future<List<Store>> getStores() async {
     List<Store> stores = List();
 
-    firestoreInstance.collection("loja").get().then((querySnapshot) {
+    await firestoreInstance.collection("loja").get().then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
         stores.add(Store.fromJson(result.data()));
       });
-    });
 
+    });
     return stores;
+
   }
 }

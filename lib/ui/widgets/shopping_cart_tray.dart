@@ -15,7 +15,7 @@ class _ShoppingCartTrayState extends State<ShoppingCartTray> {
     return Container(
       height: 40,
       padding: EdgeInsets.symmetric(horizontal: 8),
-      color: ThemeColorsUtil.primaryColor,
+      color: ThemeColorsUtil.accentColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -26,7 +26,7 @@ class _ShoppingCartTrayState extends State<ShoppingCartTray> {
                 children: [
                   Icon(
                     Icons.shopping_cart,
-                    color: ThemeColorsUtil.accentColor,
+                    color: ThemeColorsUtil.primaryColor,
                   ),
                   SizedBox(
                     width: 5,
