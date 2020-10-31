@@ -1,23 +1,14 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sparta_marketplace/core/common/global_information.dart';
-import 'package:sparta_marketplace/core/model/accepted-credit-brands.dart';
-import 'package:sparta_marketplace/core/model/accepted-debit-brands.dart';
 import 'package:sparta_marketplace/core/model/offer.dart';
-import 'package:sparta_marketplace/core/model/product.dart';
 import 'package:sparta_marketplace/core/model/store-payment.dart';
 import 'package:sparta_marketplace/core/model/store.dart';
 import 'package:sparta_marketplace/core/util/theme_colors.dart';
+import 'package:sparta_marketplace/ui/shopping_cart_screen.dart';
 import 'package:sparta_marketplace/ui/store_product_screen.dart';
 import 'package:sparta_marketplace/ui/widgets/grid_item.dart';
 import 'package:sparta_marketplace/ui/widgets/shopping_cart_tray.dart';
-
 
 class StoreScreen extends StatefulWidget {
   Store store;
@@ -79,25 +70,26 @@ class _StoreScreenState extends State<StoreScreen> {
         ),
       ),
       bottomNavigationBar: GlobalInformation.shoppingCart != null
-              ? GlobalInformation.shoppingCart.hasItems
-                  ? GestureDetector(
-                      onTap: () async {
-                        // final Route route = MaterialPageRoute(builder: (context) => ShoppingCartScreen());
-                        //
-                        // ///Reload na tela depois de ser alterado
-                        // final result = await Navigator.push(context, route);
-                        // try {
-                        //   if (result != null) {
-                        //     load();
-                        //   }
-                        // } catch (e) {
-                        //   print(e.toString());
-                        // }
-                      },
-                      child: ShoppingCartTray(),
-                    )
-                  : SizedBox()
-              : SizedBox(),
+          ? GlobalInformation.shoppingCart.hasItems
+              ? GestureDetector(
+                  onTap: () async {
+                    final Route route = MaterialPageRoute(
+                        builder: (context) => ShoppingCartScreen());
+
+                    ///Reload na tela depois de ser alterado
+                    final result = await Navigator.push(context, route);
+                    try {
+                      if (result != null) {
+                        load();
+                      }
+                    } catch (e) {
+                      print(e.toString());
+                    }
+                  },
+                  child: ShoppingCartTray(),
+                )
+              : SizedBox()
+          : SizedBox(),
     );
   }
 
@@ -128,19 +120,7 @@ class _StoreScreenState extends State<StoreScreen> {
       child: Container(
         padding: const EdgeInsets.all(15),
         child: GestureDetector(
-          onTap: () async {
-            // final Route route = MaterialPageRoute(builder: (context) => SearchScreen());
-            //
-            // ///Reload na tela depois de ser alterado
-            // final result = await Navigator.push(context, route);
-            // try {
-            //   if (result != null) {
-            //     load();
-            //   }
-            // } catch (e) {
-            //   print(e.toString());
-            // }
-          },
+          onTap: () async {},
           child: Row(
             children: [
               Expanded(
@@ -155,7 +135,8 @@ class _StoreScreenState extends State<StoreScreen> {
                   ? Row(
                       children: [
                         SizedBox(width: 5),
-                        Image.asset("assets/images/logo_helmet.png", height: 40),
+                        Image.asset("assets/images/logo_helmet.png",
+                            height: 40),
                       ],
                     )
                   : SizedBox(),
@@ -262,19 +243,7 @@ class _StoreScreenState extends State<StoreScreen> {
         children: [
           Icon(Icons.location_on),
           GestureDetector(
-            onTap: () async {
-              // final Route route = MaterialPageRoute(builder: (context) => DeliveryAddressScreen());
-              //
-              // ///Reload na tela depois de ser alterado
-              // final result = await Navigator.push(context, route);
-              // try {
-              //   if (result != null) {
-              //     load();
-              //   }
-              // } catch (e) {
-              //   print(e.toString());
-              // }
-            },
+            onTap: () async {},
             child: Text(
               'Divinopolis - MG',
               style: TextStyle(
@@ -306,7 +275,9 @@ class _StoreScreenState extends State<StoreScreen> {
 
   Widget buildLoadingContent() {
     return Center(
-      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeColorsUtil.primaryColor)),
+      child: CircularProgressIndicator(
+          valueColor:
+              AlwaysStoppedAnimation<Color>(ThemeColorsUtil.primaryColor)),
     );
   }
 
@@ -314,20 +285,20 @@ class _StoreScreenState extends State<StoreScreen> {
     return CustomScrollView(
       slivers: [
         buildFirstContent(context),
-    SliverToBoxAdapter(child:    Container(
-      height: 350,
-      child: GridView.count(
-        padding: EdgeInsets.all(8),
-        shrinkWrap: true,
-        crossAxisCount: 3,
-        mainAxisSpacing: 3,
-        crossAxisSpacing: 3,
-        physics: ScrollPhysics(),
-        children: buildList(context),
-      ),
-    ),)
-
-
+        SliverToBoxAdapter(
+          child: Container(
+            height: 350,
+            child: GridView.count(
+              padding: EdgeInsets.all(8),
+              shrinkWrap: true,
+              crossAxisCount: 3,
+              mainAxisSpacing: 3,
+              crossAxisSpacing: 3,
+              physics: ScrollPhysics(),
+              children: buildList(context),
+            ),
+          ),
+        )
       ],
     );
   }
@@ -375,14 +346,9 @@ class _StoreScreenState extends State<StoreScreen> {
       width: double.infinity,
       child: Stack(
         children: [
-
           buildStoreBannerImage(),
-
           buildStoreBannerShadow(),
-
           buildStoreHeaderText(),
-
-
         ],
       ),
     );
@@ -391,7 +357,8 @@ class _StoreScreenState extends State<StoreScreen> {
   Widget buildStoreBannerImage() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15), topRight: Radius.circular(15)),
         image: DecorationImage(
           image: NetworkImage(widget.store.logoUrl),
           fit: BoxFit.cover,
@@ -403,7 +370,8 @@ class _StoreScreenState extends State<StoreScreen> {
   Widget buildStoreBannerShadow() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15), topRight: Radius.circular(15)),
         gradient: LinearGradient(
           stops: [0.7, 1],
           colors: [Colors.black54, Colors.black54],
@@ -440,7 +408,6 @@ class _StoreScreenState extends State<StoreScreen> {
                   buildCircleSeparator(),
                   SizedBox(width: 5),
                   buildStoreDeliveryFee(),
-
                 ],
               ),
               SizedBox(height: 10),
@@ -452,15 +419,12 @@ class _StoreScreenState extends State<StoreScreen> {
               SizedBox(height: 5),
               // buildAcceptMoney(),
               SizedBox(height: 5),
-
             ],
           ),
         ],
       ),
     );
   }
-
-
 
   Widget buildPaymentOnDeliveryTitle() {
     return Text(
@@ -485,7 +449,6 @@ class _StoreScreenState extends State<StoreScreen> {
     );
   }
 
-
   Widget buildStoreName() {
     return Text(
       widget.store.name,
@@ -499,9 +462,9 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 
   Widget buildStoreRate() {
-
-      return Text("Novo!", style: TextStyle(fontFamily: 'Montserrat', color: ThemeColorsUtil.primaryColor));
-
+    return Text("Novo!",
+        style: TextStyle(
+            fontFamily: 'Montserrat', color: ThemeColorsUtil.primaryColor));
   }
 
   Widget buildStoreDistance() {
@@ -515,7 +478,8 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 
   Widget buildStoreDeliveryTime() {
-    return Text("60 min", style: TextStyle(color: Colors.white, fontFamily: 'Montserrat'));
+    return Text("60 min",
+        style: TextStyle(color: Colors.white, fontFamily: 'Montserrat'));
   }
 
   Widget buildCircleSeparator() {
@@ -523,19 +487,17 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 
   Widget buildStoreDeliveryFee() {
-
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(2),
-        ),
-        child: Text(
-          "ENTREGA GRÁTIS",
-          style: TextStyle(color: Colors.white),
-        ),
-      );
-
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      decoration: BoxDecoration(
+        color: Colors.green,
+        borderRadius: BorderRadius.circular(2),
+      ),
+      child: Text(
+        "ENTREGA GRÁTIS",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
   }
 
   Widget buildStoreSddress() {
@@ -551,9 +513,6 @@ class _StoreScreenState extends State<StoreScreen> {
       style: TextStyle(color: Colors.white, fontFamily: 'Montserrat'),
     );
   }
-
-
-
 
   List<Widget> buildList(BuildContext context) {
     List<Widget> items = [];
@@ -578,11 +537,10 @@ class _StoreScreenState extends State<StoreScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    StoreProductScreen(widget.store , widget.store.products[i])));
+                builder: (context) => StoreProductScreen(
+                    widget.store, widget.store.products[i])));
       }));
     }
     return items;
   }
-
 }

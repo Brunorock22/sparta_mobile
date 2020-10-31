@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +28,6 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
       DateTime.now().minute,
     );
 
-    // if (!GlobalInformation.store.isOpen) {
-    //   mustBeScheduled = true;
-    // }
   }
 
   @override
@@ -77,8 +72,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
         body: page(),
         bottomNavigationBar: MaterialButton(
           height: 50,
-          onPressed: () => onChoosePaymentMethodClicked()
-                  ,
+          onPressed: () => onChoosePaymentMethodClicked(),
           color: ThemeColorsUtil.accentColor,
           child: gettingCurrentPosition
               ? CircularProgressIndicator(backgroundColor: Colors.black)
@@ -350,17 +344,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                     color: Colors.black,
                     size: 35,
                   ),
-                  onTap: () async {
-                    // final Route route = MaterialPageRoute(builder: (context) => DeliveryAddressScreen());
-                    //
-                    // ///Reload na tela depois de ser alerado status de notificacao
-                    // final result = await Navigator.push(context, route);
-                    // try {
-                    //   if (result != null) {
-                    //     setState(() {});
-                    //   }
-                    // } catch (e) {}
-                  },
+                  onTap: () async {},
                   title: Text('Endereço do dispositivo'),
                   subtitle: Text(
                       'Antes de prosseguir com a compra adicione um endereço para entrega'),
@@ -531,7 +515,6 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                 SizedBox(
                   height: 15,
                 ),
-
                 SizedBox(
                   height: 15,
                 ),
@@ -552,19 +535,20 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
             ),
             SizedBox(
               height: 20,
-            ), Card(
-                    elevation: 6,
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.card_giftcard,
-                        color: ThemeColorsUtil.accentColor,
-                        size: 35,
-                      ),
-                      onTap: (){},
-                      title: Text('Cupom'),
-                      subtitle: Text('Selecione um cupom disponível'),
-                    ),
-                  )
+            ),
+            Card(
+              elevation: 6,
+              child: ListTile(
+                leading: Icon(
+                  Icons.card_giftcard,
+                  color: ThemeColorsUtil.accentColor,
+                  size: 35,
+                ),
+                onTap: () {},
+                title: Text('Cupom'),
+                subtitle: Text('Selecione um cupom disponível'),
+              ),
+            )
           ],
         ),
       ),
@@ -606,16 +590,14 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
     return Text("●", style: TextStyle(color: Colors.grey));
   }
 
-
   void removeCoupon() {
     setState(() {
       GlobalInformation.shoppingCart.removeCoupon();
     });
   }
 
-
-
   void choiceAction(String choice) {}
+
   void showOptions() {
     if (!GlobalInformation.shoppingCart.hasItems) {
       Flushbar(
@@ -642,14 +624,19 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
               ),
               Text(
                 'Carrinho',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, fontFamily: 'Montserrat'),
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Montserrat'),
               ),
               SizedBox(
                 height: 10,
               ),
               Text(
                 'Deseja esvaziar o carrinho ?',
-                style: TextStyle(fontFamily: 'Montserrat', color: Colors.black.withAlpha(200)),
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: Colors.black.withAlpha(200)),
               ),
               SizedBox(height: 30),
               Row(
@@ -662,7 +649,10 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                     color: ThemeColorsUtil.accentColor,
                     child: Text(
                       'Não',
-                      style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600, fontSize: 16),
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16),
                     ),
                   ),
                   MaterialButton(
@@ -677,7 +667,10 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                     color: ThemeColorsUtil.accentColor,
                     child: Text(
                       'Sim',
-                      style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600, fontSize: 16),
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16),
                     ),
                   )
                 ],
@@ -689,5 +682,4 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
           );
         });
   }
-
 }

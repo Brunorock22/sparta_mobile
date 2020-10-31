@@ -1,8 +1,7 @@
 import 'dart:math';
-import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:sparta_marketplace/core/common/global_information.dart';
 import 'package:sparta_marketplace/core/model/item_order.dart';
 import 'package:sparta_marketplace/core/model/product.dart';
@@ -52,7 +51,8 @@ class _StoreProductScreenState extends State<StoreProductScreen> {
                 ? GlobalInformation.shoppingCart.hasItems
                     ? GestureDetector(
                         onTap: () async {
-                          final Route route = MaterialPageRoute(builder: (context) => ShoppingCartScreen());
+                          final Route route = MaterialPageRoute(
+                              builder: (context) => ShoppingCartScreen());
 
                           ///Reload na tela depois de ser alterado
                           final result = await Navigator.push(context, route);
@@ -192,7 +192,6 @@ class _StoreProductScreenState extends State<StoreProductScreen> {
     );
   }
 
-
   Widget buildCurrentPrice(Product product) {
     return Card(
       child: Padding(
@@ -200,12 +199,10 @@ class _StoreProductScreenState extends State<StoreProductScreen> {
         child: Text(
           "R\$ ${product.price}",
           style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-
-            color: Colors.green
-          ),
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.green),
         ),
       ),
     );
@@ -214,9 +211,7 @@ class _StoreProductScreenState extends State<StoreProductScreen> {
   void addItem() {
     ItemOrder item = loadItemOrder(widget.product);
     GlobalInformation.shoppingCart.addOrder(item);
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   ItemOrder loadItemOrder(Product product) {

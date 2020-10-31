@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sparta_marketplace/core/common/global_information.dart';
 import 'package:sparta_marketplace/ui/widgets/shopping_cart_tray.dart';
@@ -19,7 +18,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ? GlobalInformation.shoppingCart.hasItems
               ? GestureDetector(
                   onTap: () async {
-                    final Route route = MaterialPageRoute(builder: (context) => ShoppingCartScreen());
+                    final Route route = MaterialPageRoute(
+                        builder: (context) => ShoppingCartScreen());
 
                     ///Reload na tela depois de ser alterado
                     final result = await Navigator.push(context, route);
@@ -50,11 +50,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   leading: Container(
                     width: 50,
                     height: 50,
-                    decoration: BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                        color: Colors.amber, shape: BoxShape.circle),
                   ),
                   title: Text(
                     "Bruno Camargos",
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, fontFamily: "Montserrat"),
+                    style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "Montserrat"),
                   ),
                   subtitle: Padding(
                     padding: const EdgeInsets.only(top: 10.0),
@@ -81,7 +85,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   title: Text(
                     'Chats',
-                    style: TextStyle(fontSize: 18, fontFamily: "Montserrat", fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w600),
                   ),
                   subtitle: Text('Minhas conversas'),
                   trailing: Icon(
@@ -95,7 +102,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () => {},
                   title: Text(
                     'Cupons',
-                    style: TextStyle(fontSize: 18, fontFamily: "Montserrat", fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w600),
                   ),
                   leading: Icon(
                     Icons.card_giftcard,
@@ -107,35 +117,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     size: 14,
                   ),
                 ),
-                // Divider(),
-                // ListTile(
-                //   leading: Icon(
-                //     Icons.favorite_border,
-                //     color: Colors.black,
-                //   ),
-                //   title: Text(
-                //     'Favoritos',
-                //     style: TextStyle(
-                //         fontSize: 18,
-                //         fontFamily: "Montserrat",
-                //         fontWeight: FontWeight.w600),
-                //   ),
-                //   subtitle: Text('Meus locais favoritos'),
-                //   trailing: Icon(
-                //     Icons.arrow_forward_ios,
-                //     size: 14,
-                //   ),
-                // ),
                 Divider(),
                 ListTile(
-                  onTap: () => Navigator.pushNamed(context, '/delivery_address'),
+                  onTap: () =>
+                      Navigator.pushNamed(context, '/delivery_address'),
                   leading: Icon(
                     Icons.place,
                     color: Colors.black,
                   ),
                   title: Text(
                     'Endereços',
-                    style: TextStyle(fontSize: 18, fontFamily: "Montserrat", fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w600),
                   ),
                   subtitle: Text('Meus endereços de entrega'),
                   trailing: Icon(
@@ -144,12 +139,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Divider(),
-
                 ListTile(
                   onTap: () => {},
                   title: Text(
                     'Cartões',
-                    style: TextStyle(fontSize: 18, fontFamily: "Montserrat", fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w600),
                   ),
                   leading: Icon(
                     Icons.credit_card,
@@ -163,38 +160,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Divider(),
                 SizedBox(height: 80),
-                // ListTile(
-                //   leading: Icon(Icons.help_outline),
-                //   title: Text(
-                //     'Ajuda',
-                //     style: TextStyle(
-                //         fontSize: 18,
-                //         fontFamily: "Montserrat",
-                //         fontWeight: FontWeight.w600,
-                //         color: Colors.grey),
-                //   ),
-                //   trailing: Icon(
-                //     Icons.arrow_forward_ios,
-                //     size: 14,
-                //   ),
-                // ),
-                // Divider(),
-                // ListTile(
-                //   leading: Icon(Icons.settings),
-                //   title: Text(
-                //     'Configurações',
-                //     style: TextStyle(
-                //         fontSize: 18,
-                //         fontFamily: "Montserrat",
-                //         fontWeight: FontWeight.w600,
-                //         color: Colors.grey),
-                //   ),
-                //   trailing: Icon(
-                //     Icons.arrow_forward_ios,
-                //     size: 14,
-                //   ),
-                // ),
-                // Divider(),
               ],
             ),
           )

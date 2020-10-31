@@ -30,7 +30,7 @@ class _MainTabControllerState extends State<MainTabController> {
   ]);
 
   CircularBottomNavigationController _navigationController =
-      CircularBottomNavigationController(2);
+      CircularBottomNavigationController(0);
 
   @override
   Widget build(BuildContext context) {

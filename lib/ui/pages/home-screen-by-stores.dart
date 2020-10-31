@@ -41,6 +41,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
     categories.add(Category(name: "Fitness", icon: Icons.fitness_center));
 
     offers.add(Offer());
+    load();
   }
 
   @override
@@ -51,13 +52,10 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-        future: load(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            stores = snapshot.data;
-            return Container(
+    return isLoading
+        ? Center(child: CircularProgressIndicator())
+        : Scaffold(
+            body: Container(
               color: Colors.white,
               child: NestedScrollView(
                 controller: scrollController,
@@ -66,41 +64,39 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
                 },
                 body: buildLoadedContent(context),
               ),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-      bottomNavigationBar: GlobalInformation.shoppingCart != null
-          ? GlobalInformation.shoppingCart.hasItems
-              ? GestureDetector(
-                  onTap: () async {
-                    final Route route = MaterialPageRoute(
-                        builder: (context) => ShoppingCartScreen());
+            ),
+            bottomNavigationBar: GlobalInformation.shoppingCart != null
+                ? GlobalInformation.shoppingCart.hasItems
+                    ? GestureDetector(
+                        onTap: () async {
+                          final Route route = MaterialPageRoute(
+                              builder: (context) => ShoppingCartScreen());
 
-                    ///Reload na tela depois de ser alterado
-                    final result = await Navigator.push(context, route);
-                    try {
-                      if (result != null) {
-                        // load();
-                        setState(() {});
-                      }
-                    } catch (e) {
-                      print(e.toString());
-                    }
-                  },
-                  child: ShoppingCartTray(),
-                )
-              : SizedBox()
-          : SizedBox(),
-    );
+                          ///Reload na tela depois de ser alterado
+                          final result = await Navigator.push(context, route);
+                          try {
+                            if (result != null) {
+                              // load();
+                              setState(() {});
+                            }
+                          } catch (e) {
+                            print(e.toString());
+                          }
+                        },
+                        child: ShoppingCartTray(),
+                      )
+                    : SizedBox()
+                : SizedBox(),
+          );
   }
 
   Future<List<Store>> load() async {
+    setState(() {});
     isLoading = true;
     FirebaseService firebase = FirebaseService();
-    return await firebase.getStores();
+    stores = await firebase.getStores();
+    isLoading = false;
+    setState(() {});
   }
 
   Widget buildAppBar() {
@@ -386,18 +382,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   Widget buildOfferBanner(Offer offer) {
     return GestureDetector(
       onTap: () async {
-        // GlobalInformation.selectedOffer = offer;
-        // final Route route = MaterialPageRoute(builder: (context) => MainOfferScreen(isGeneral: true));
-        //
-        // ///Reload na tela depois de ser alterado
-        // final result = await Navigator.push(context, route);
-        // try {
-        //   if (result != null) {
-        //     load();
-        //   }
-        // } catch (e) {
-        //   print(e.toString());
-        // }
+
       },
       child: Container(
         height: double.infinity,
@@ -466,17 +451,7 @@ class _HomeScreenByStoresState extends State<HomeScreenByStores> {
   Widget buildCategoryItem(Category category) {
     return GestureDetector(
       onTap: () async {
-        // final Route route = MaterialPageRoute(builder: (context) => SearchScreen(category: category));
-        //
-        // ///Reload na tela depois de ser alterado
-        // final result = await Navigator.push(context, route);
-        // try {
-        //   if (result != null) {
-        //     load();
-        //   }
-        // } catch (e) {
-        //   print(e.toString());
-        // }
+
       },
       child: buildCategoryContainer(category),
     );
